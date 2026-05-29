@@ -20,7 +20,7 @@ RUN npm ci --only=production
 COPY ai-service/ ./ai-service/
 
 # Install Python dependencies for AI service
-RUN cd ai-service && pip3 install --no-cache-dir -r requirements.txt
+RUN cd ai-service && pip3 install --no-cache-dir --break-system-packages -r requirements.txt
 
 # Copy source
 COPY src/ ./src/
