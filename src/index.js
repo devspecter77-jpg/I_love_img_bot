@@ -28,8 +28,27 @@ async function main() {
   startApiServer();
   startCleanupJob();
 
-  await bot.launch();
-  logger.info('🤖 Bot muvaffaqiyatli ishga tushdi!');
+  // Webhook yoki polling
+  if (process.env.WEBHOOK_URL) {
+    // Webhook rejimi (production)
+    const webhookPath = '/webhook';
+    await bot.telegram.setWebhook(`${process.env.WEBHOOK_URL}${webhookPath}`);
+    logger.info(`🌐 Webhook o'rnatildi: ${process.env.WEBHOOK_URL}${webhookPath}`);
+    
+    // Express webhook endpoint
+    const express = require('express');
+    const app = express();
+    app.use(bot.webhookCallback(webhookPath));
+    
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+      logger.info(`🤖 Bot webhook rejimida ishga tushdi (port ${port})`);
+    });
+  } else {
+    // Polling rejimi (development)
+    await bot.launch();
+    logger.info('🤖 Bot polling rejimida ishga tushdi!');
+  }
 
   process.once('SIGINT', () => bot.stop('SIGINT'));
   process.once('SIGTERM', () => bot.stop('SIGTERM'));
