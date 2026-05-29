@@ -31,9 +31,12 @@ async function main() {
   // Webhook yoki polling
   if (process.env.WEBHOOK_URL) {
     // Webhook rejimi (production)
-    const webhookPath = '/webhook';
-    await bot.telegram.setWebhook(`${process.env.WEBHOOK_URL}${webhookPath}`);
-    logger.info(`🌐 Webhook o'rnatildi: ${process.env.WEBHOOK_URL}${webhookPath}`);
+    const webhookDomain = process.env.WEBHOOK_URL.replace(/\/$/, ''); // Oxiridagi / ni olib tashlash
+    const webhookPath = `/webhook/${process.env.BOT_TOKEN.split(':')[0]}`;
+    const webhookUrl = `${webhookDomain}${webhookPath}`;
+    
+    await bot.telegram.setWebhook(webhookUrl);
+    logger.info(`🌐 Webhook o'rnatildi: ${webhookUrl}`);
     
     // Express webhook endpoint
     const express = require('express');
