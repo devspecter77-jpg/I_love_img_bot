@@ -4,7 +4,8 @@
   "description": "AI Background Removal Telegram Bot",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node start-services.js",
+    "start:bot": "node src/index.js",
     "start:ai": "cd ai-service && python main.py",
     "dev": "nodemon src/index.js"
   },

@@ -1,1 +1,1 @@
-web: bash start-railway.sh
+web: npm start

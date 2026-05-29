@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["nodejs_20", "python311", "python311Packages.pip", "bash"]
+nixPkgs = ["nodejs_20", "python311", "python311Packages.pip"]
 
 [phases.install]
 cmds = [
@@ -8,7 +8,7 @@ cmds = [
 ]
 
 [phases.build]
-cmds = ["chmod +x start-railway.sh"]
+cmds = ["echo 'Build complete'"]
 
 [start]
-cmd = "bash start-railway.sh"
+cmd = "npm start"
