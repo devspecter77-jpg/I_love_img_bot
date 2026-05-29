@@ -1,0 +1,15 @@
+fastapi==0.109.2
+uvicorn[standard]==0.27.1
+python-multipart==0.0.9
+Pillow==10.2.0
+numpy==1.26.4
+rembg[gpu]==2.0.56
+onnxruntime-gpu==1.17.1
+# For BiRefNet (optional, high quality):
+torch==2.2.0
+torchvision==0.17.0
+transformers==4.38.1
+# CPU-only alternative (uncomment if no GPU):
+# onnxruntime==1.17.1
+# torch==2.2.0+cpu
+# torchvision==0.17.0+cpu

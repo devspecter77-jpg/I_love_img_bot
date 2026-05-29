@@ -1,0 +1,13 @@
+node_modules/
+.git/
+.env.local
+.env.development
+storage/output/
+storage/temp/
+logs/
+*.log
+.DS_Store
+.vscode/
+.idea/
+ai-service/.venv/
+ai-service/__pycache__/

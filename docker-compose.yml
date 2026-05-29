@@ -1,0 +1,82 @@
+version: '3.9'
+
+services:
+  # Redis for queue
+  redis:
+    image: redis:7-alpine
+    container_name: bgbot-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Python AI microservice
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    container_name: bgbot-ai
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - AI_SERVICE_PORT=8000
+      - AI_SERVICE_HOST=0.0.0.0
+    volumes:
+      - ai_models:/root/.u2net
+      - ai_models_cache:/root/.cache
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    # Uncomment for GPU support:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  # Node.js Telegram bot
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bgbot-node
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+      ai-service:
+        condition: service_healthy
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - AI_SERVICE_URL=http://ai-service:8000
+      - NODE_ENV=production
+      - STORAGE_PATH=/app/storage
+      - TEMP_PATH=/app/storage/temp
+      - OUTPUT_PATH=/app/storage/output
+    volumes:
+      - bot_storage:/app/storage
+      - bot_logs:/app/logs
+    ports:
+      - "3000:3000"
+
+volumes:
+  redis_data:
+  ai_models:
+  ai_models_cache:
+  bot_storage:
+  bot_logs:
