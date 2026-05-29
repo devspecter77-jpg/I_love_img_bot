@@ -2,9 +2,9 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install dependencies for sharp and Python AI service
+# Install Python 3.11 and dependencies
 RUN apk add --no-cache \
-    python3 \
+    python3~=3.11 \
     py3-pip \
     make \
     g++ \
