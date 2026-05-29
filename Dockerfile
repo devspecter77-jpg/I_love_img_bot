@@ -19,8 +19,8 @@ RUN npm ci --only=production
 # Copy AI service
 COPY ai-service/ ./ai-service/
 
-# Install Python dependencies for AI service
-RUN cd ai-service && pip3 install --no-cache-dir --break-system-packages -r requirements.txt
+# Install Python dependencies for AI service (CPU version for Railway)
+RUN cd ai-service && pip3 install --no-cache-dir --break-system-packages -r requirements-cpu.txt
 
 # Copy source
 COPY src/ ./src/
