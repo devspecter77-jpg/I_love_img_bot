@@ -2,6 +2,8 @@
 
 Telegram bot for AI-powered background removal and replacement.
 
+**Version:** 1.0.0
+
 ## ✨ Features
 
 - 🖼️ **Remove Background** - AI orqa fonni olib tashlash
