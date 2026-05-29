@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: i-love-img-bot
+    env: node
+    buildCommand: npm install && cd ai-service && pip install -r requirements-cpu.txt
+    startCommand: node start-services.js
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: ADMIN_ID
+        value: 5834939103
+      - key: ADMIN_USERNAME
+        value: "@RootDev07"
+      - key: PAYMENT_CARD
+        value: "8600 1234 5678 9012"
+      - key: PAYMENT_NAME
+        value: ROOTDEV
+      - key: SUPPORT_USERNAME
+        value: "@RootDev07"
+      - key: AI_SERVICE_URL
+        value: http://localhost:8000
+      - key: MAX_SIZE
+        value: 384
+      - key: REMBG_MODEL
+        value: u2net
+      - key: NODE_ENV
+        value: production
+      - key: API_PORT
+        value: 3000
