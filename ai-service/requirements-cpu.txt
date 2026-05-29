@@ -1,9 +1,7 @@
-# CPU-only version (no GPU required)
-# Flexible versions for Python 3.12 compatibility
+# CPU-only version (Python 3.12+ compatible)
 fastapi>=0.109.0
 uvicorn[standard]>=0.27.0
 python-multipart>=0.0.9
 Pillow>=10.0.0
 numpy>=1.26.0
-rembg>=2.0.56
-onnxruntime>=1.16.0
+rembg[cpu]>=2.0.59

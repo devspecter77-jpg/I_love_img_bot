@@ -2,9 +2,9 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install Python 3.11 and dependencies
+# Install Python and dependencies
 RUN apk add --no-cache \
-    python3~=3.11 \
+    python3 \
     py3-pip \
     make \
     g++ \
