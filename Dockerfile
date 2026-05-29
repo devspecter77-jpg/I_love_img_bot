@@ -2,9 +2,10 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install dependencies for sharp
+# Install dependencies for sharp and Python AI service
 RUN apk add --no-cache \
     python3 \
+    py3-pip \
     make \
     g++ \
     vips-dev
@@ -15,8 +16,15 @@ COPY package*.json ./
 # Install Node dependencies
 RUN npm ci --only=production
 
+# Copy AI service
+COPY ai-service/ ./ai-service/
+
+# Install Python dependencies for AI service
+RUN cd ai-service && pip3 install --no-cache-dir -r requirements.txt
+
 # Copy source
 COPY src/ ./src/
+COPY start-services.js ./
 
 # Create storage directories
 RUN mkdir -p storage/temp storage/output logs
@@ -26,6 +34,6 @@ RUN addgroup -S botuser && adduser -S botuser -G botuser
 RUN chown -R botuser:botuser /app
 USER botuser
 
-EXPOSE 3000
+EXPOSE 3000 8000
 
-CMD ["node", "src/index.js"]
+CMD ["node", "start-services.js"]
